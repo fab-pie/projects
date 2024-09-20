@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Portfolio</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .project { margin-bottom: 20px; }
+        img { max-width: 200px; }
+    </style>
+</head>
+<body>
+    <h1>Mon Portfolio</h1>
+    <div id="projects"></div>
+    
+    <h2>Ajouter un Projet</h2>
+    <input type="text" id="title" placeholder="Titre">
+    <input type="text" id="image_url" placeholder="URL de l'image">
+    <textarea id="description" placeholder="Description"></textarea>
+    <button onclick="addProject()">Ajouter</button>
+
+    <script>
+        async function fetchProjects() {
+            const response = await fetch('/projects');
+            const projects = await response.json();
+            const projectsDiv = document.getElementById('projects');
+            projectsDiv.innerHTML = '';
+            projects.forEach(project => {
+                projectsDiv.innerHTML += `
+                    <div class="project">
+                        <h3>${project.title}</h3>
+                        <img src="${project.image_url}" alt="${project.title}">
+                        <p>${project.description}</p>
+                        <button onclick="deleteProject(${project.id})">Supprimer</button>
+                    </div>
+                `;
+            });
+        }
+
+        async function addProject() {
+            const title = document.getElementById('title').value;
+            const image_url = document.getElementById('image_url').value;
+            const description = document.getElementById('description').value;
+            const project = { id: Date.now(), title, image_url, description };
+            await fetch('/projects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(project)
+            });
+            fetchProjects();
+        }
+
+        async function deleteProject(id) {
+            await fetch(`/projects/${id}`, { method: 'DELETE' });
+            fetchProjects();
+        }
+
+        // Charger les projets au démarrage
+        fetchProjects();
+    </script>
+</body>
+</html>

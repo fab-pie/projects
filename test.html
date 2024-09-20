@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+        .contact {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .contact h2 {
+            margin-top: 0;
+            color: #555;
+        }
+        .contact p {
+            margin: 5px 0;
+        }
+        .contact a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .contact a:hover {
+            text-decoration: underline;
+        }
+        #addProjectBtn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #addProjectBtn:hover {
+            background-color: #218838;
+        }
+        #projectForm {
+            display: none;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        #projectForm label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        #projectForm input, #projectForm textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        #projectForm button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #projectForm button:hover {
+            background-color: #0056b3;
+        }
+        .project {
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .project img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .editProjectBtn, .deleteProjectBtn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+        }
+        .editProjectBtn {
+            right: 80px;
+            background-color: #007bff;
+        }
+        .deleteProjectBtn {
+            right: 10px;
+        }
+        .editProjectBtn:hover {
+            background-color: #0056b3;
+        }
+        .deleteProjectBtn:hover {
+            background-color: #c82333;
+        }
+        /* Ruban de navigation */
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <a href="#contact">Contact</a>
+</nav>
+
+<h1>Mon Portfolio</h1>
+
+<div class="contact" id="contact">
+    <h2>Contact</h2>
+    <p>Email : <a href="mailto:fabienpieretti@gmail.com">fabienpieretti@gmail.com</a></p>
+    <p>Téléphone : 0782780758</p>
+    <p>École : <a href="https://www.esilv.fr" target="_blank">ESILV</a></p>
+</div>
+
+<button id="addProjectBtn">Ajouter un projet</button>
+
+<div id="projectForm">
+    <h2 id="formTitle">Ajouter un projet</h2>
+    <label for="imageUrl">URL de l'image:</label>
+    <input type="text" id="imageUrl" required>
+    <br>
+    <label for="description">Description:</label>
+    <textarea id="description" required></textarea>
+    <br>
+    <button id="submitProject">Soumettre</button>
+    <button id="cancelProject">Annuler</button>
+</div>
+
+<div id="projects"></div>
+
+<script>
+    const addProjectBtn = document.getElementById('addProjectBtn');
+    const projectForm = document.getElementById('projectForm');
+    const submitProject = document.getElementById('submitProject');
+    const cancelProject = document.getElementById('cancelProject');
+    const projectsDiv = document.getElementById('projects');
+    const navbar = document.getElementById('navbar');
+
+    let editingProjectIndex = null;
+
+    async function loadProjects() {
+        const response = await fetch("http://127.0.0.1:8000/projects/");
+        const projects = await response.json();
+        projectsDiv.innerHTML = '';
+        navbar.innerHTML = '<a href="#contact">Contact</a>';
+        projects.forEach((project, index) => {
+            const projectDiv = createProjectDiv(project, index);
+            projectsDiv.appendChild(projectDiv);
+
+            // Mise à jour du ruban
+            const navLink = document.createElement('a');
+            navLink.href = `#project-${index}`;
+            navLink.textContent = `Projet ${index + 1}`;
+            navbar.appendChild(navLink);
+        });
+    }
+
+    function createProjectDiv(project, index) {
+        const projectDiv = document.createElement('div');
+        projectDiv.className = 'project';
+        projectDiv.id = `project-${index}`;
+        projectDiv.innerHTML = `
+            <img src="${project.image_url}" alt="Projet">
+            <p>${project.description}</p>
+            <button class="editProjectBtn" data-index="${index}">Modifier</button>
+            <button class="deleteProjectBtn" data-index="${index}">Supprimer</button>
+        `;
+        return projectDiv;
+    }
+
+    addProjectBtn.addEventListener('click', () => {
+        projectForm.style.display = 'block';
+        document.getElementById('formTitle').innerText = "Ajouter un projet";
+        editingProjectIndex = null;
+        document.getElementById('imageUrl').value = '';
+        document.getElementById('description').value = '';
+    });
+
+    cancelProject.addEventListener('click', () => {
+        projectForm.style.display = 'none';
+        document.getElementById('imageUrl').value = '';
+        document.getElementById('description').value = '';
+        editingProjectIndex = null;
+    });
+
+    submitProject.addEventListener('click', async () => {
+        const imageUrl = document.getElementById('imageUrl').value;
+        const description = document.getElementById('description').value;
+
+        if (editingProjectIndex === null) {
+            // Ajouter un nouveau projet
+            await fetch("http://127.0.0.1:8000/projects/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ image_url: imageUrl, description: description })
+            });
+        } else {
+            // Modifier un projet existant
+            await fetch(`http://127.0.0.1:8000/projects/${editingProjectIndex}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ image_url: imageUrl, description: description })
+            });
+        }
+
+        projectForm.style.display = 'none';
+        document.getElementById('imageUrl').value = '';
+        document.getElementById('description').value = '';
+        editingProjectIndex = null;
+        loadProjects();
+    });
+
+    projectsDiv.addEventListener('click', async (event) => {
+        const index = event.target.dataset.index;
+        if (event.target.classList.contains('deleteProjectBtn')) {
+            await fetch(`http://127.0.0.1:8000/projects/${index}`, {
+                method: "DELETE"
+            });
+            loadProjects();
+        }
+
+        if (event.target.classList.contains('editProjectBtn')) {
+            const response = await fetch("http://127.0.0.1:8000/projects/");
+            const projects = await response.json();
+            const project = projects[index];
+
+            document.getElementById('imageUrl').value = project.image_url;
+            document.getElementById('description').value = project.description;
+            document.getElementById('formTitle').innerText = "Modifier le projet";
+            projectForm.style.display = 'block';
+            editingProjectIndex = index;
+        }
+    });
+
+    // Charger les projets au chargement de la page
+    loadProjects();
+</script>
+
+</body>
+</html>
