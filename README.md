@@ -5,11 +5,11 @@ En groupe avec Victor Ranguin pour la partie must have (et quasi must have).
 Must have : Portfolio où je peux mettre une image et un texte à coter pour les présenter et cela autant de fois que je le veux. (10 points)
 
 Nice to have : 
--Quasi must have (Dans la catégorie nice to have pour respecter le barème) : avoir une session visiteur afin qu'ils ne puissent pas modifier les éléments du site seulement moi peux le faire depuis le site en me connectant avec un compte admin. (2 points)
+-Quasi must have (Dans la catégorie nice to have pour respecter le barème) : avoir une session visiteur afin qu'ils ne puissent pas modifier les éléments du site seulement moi peux le faire depuis le site en me connectant avec un compte admin. (3 points)
 
 -Avoir une fiche de contact avec mon mail et adresse mail. (1 point). Ainsi que l'école et/ou l'IFT en hyperlien. (1 point)
 
--Création d'un ruban en haut du site où : Choix 1 : permet de défilés sur les différents éléments de la page, que ce soit les contact les différents projets etc. Choix 2 : De même, mais les boutons seront des hyperliens. (4 points)
+-Création d'un ruban en haut du site où : Choix 1 : permet de défilés sur les différents éléments de la page, que ce soit les contact les différents projets etc. Choix 2 : De même, mais les boutons seront des hyperliens. (3 points)
 
 Si choix 2 : ajouter un [lire la suite] ou quelque chose du même style au niveau du texte de chaque projet pour avoir un hyperlien de ce projet la où tout sera plus détaillé et cela permettra d'avoir la page d'acceuil clean. ((1) point)
 
