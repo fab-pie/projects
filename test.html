@@ -195,7 +195,6 @@
             const projectDiv = createProjectDiv(project, index);
             projectsDiv.appendChild(projectDiv);
 
-            // Mise à jour du ruban
             const navLink = document.createElement('a');
             navLink.href = `#project-${index}`;
             navLink.textContent = `Projet ${index + 1}`;
@@ -236,7 +235,6 @@
         const description = document.getElementById('description').value;
 
         if (editingProjectIndex === null) {
-            // Ajouter un nouveau projet
             await fetch("http://127.0.0.1:8000/projects/", {
                 method: "POST",
                 headers: {
@@ -245,7 +243,6 @@
                 body: JSON.stringify({ image_url: imageUrl, description: description })
             });
         } else {
-            // Modifier un projet existant
             await fetch(`http://127.0.0.1:8000/projects/${editingProjectIndex}`, {
                 method: "PUT",
                 headers: {
@@ -284,7 +281,6 @@
         }
     });
 
-    // Charger les projets au chargement de la page
     loadProjects();
 </script>
 
