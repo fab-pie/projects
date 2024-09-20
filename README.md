@@ -2,7 +2,7 @@
 
 En groupe avec Victor Ranguin pour la partie must have (et quasi must have).
 
-Must have : Portfolio où je peux mettre une image et un texte à coter pour les présenter et cela autant de fois que je le veux+modifiable. (10 points)
+Must have : Portfolio où je peux mettre une image et un texte à coter pour les présenter et cela autant de fois que je le veux. (10 points)
 
 Nice to have : 
 -Quasi must have (Dans la catégorie nice to have pour respecter le barème) : avoir une session visiteur afin qu'ils ne puissent pas modifier les éléments du site seulement moi peux le faire depuis le site en me connectant avec un compte admin. (2 points)
