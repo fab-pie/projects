@@ -1,6 +1,6 @@
 # projects
 
-En groupe avec Victor Ranguin pour le must have
+En groupe avec Victor Ranguin pour la partie must have (et quasi must have).
 
 Must have : Portfolio où je peux mettre une image et un texte à coter pour les présenter et cela autant de fois que je le veux+modifiable. (10 points)
 
